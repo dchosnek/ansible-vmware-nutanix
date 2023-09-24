@@ -67,9 +67,9 @@
         validate_certs: false
         esxi_hostname: "{{ item }}"
         type: static
-        domain: auslab.cisco.com
+        domain: "{{ dns_domain }}"
         dns_servers:
-          - 172.16.1.98
+          - "{{ dns_server }}"
       loop: "{{ hypervisor_hosts }}"
 
     - name: Create portgroups on all hosts in the cluster
