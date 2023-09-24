@@ -1,6 +1,6 @@
-# Ansible Nutanix
+# Ansible VMware
 
-This repository contains some simple Ansible playbooks for adding the nodes of a Nutanix cluster to vCenter and properly configuring the vCenter cluster.
+This repository contains some simple Ansible playbooks for adding nodes to vCenter and properly configuring the vCenter cluster.
 
 ## How to run
 
