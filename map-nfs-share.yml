@@ -1,0 +1,22 @@
+---
+- name: Map NFS share to all hosts
+  become: false
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Map the ISO share as a datastore
+      community.vmware.vmware_host_datastore:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datastore_name: ISO
+        datastore_type: nfs
+        nfs_server: infra-chx.auslab.cisco.com
+        nfs_path: /software
+        nfs_ro: true
+        esxi_hostname: "{{ item }}"
+        state: present
+      loop: "{{ hypervisor_hosts }}"

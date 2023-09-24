@@ -1,0 +1,17 @@
+---
+- name: Delete vCenter cluster
+  become: false
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Delete the cluster
+      community.vmware.vmware_cluster:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        state: absent

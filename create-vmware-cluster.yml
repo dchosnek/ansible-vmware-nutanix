@@ -1,0 +1,86 @@
+---
+- name: Set up vCenter
+  become: false
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Create the datacenter
+      community.vmware.vmware_datacenter:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        state: present
+
+    - name: Create the cluster
+      community.vmware.vmware_cluster:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        state: present
+
+    - name: Enable cluster DRS
+      community.vmware.vmware_cluster_drs:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        enable: true
+
+    - name: Enable cluster HA
+      community.vmware.vmware_cluster_ha:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        enable: true
+
+    - name: Add ESXi hosts to the cluster
+      community.vmware.vmware_host:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        esxi_hostname: "{{ item }}"
+        esxi_username: root
+        esxi_password: "nutanix/4u"
+        state: present
+      loop: "{{ hypervisor_hosts }}"
+
+    - name: Configure DNS server for each host
+      community.vmware.vmware_host_dns:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        esxi_hostname: "{{ item }}"
+        type: static
+        domain: auslab.cisco.com
+        dns_servers:
+          - 172.16.1.98
+      loop: "{{ hypervisor_hosts }}"
+
+    - name: Create portgroups on all hosts in the cluster
+      community.vmware.vmware_portgroup:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: false
+        cluster_name: "{{ cluster_name }}"
+        portgroup: "{{ item.key }}"
+        state: present
+        switch: vSwitch0
+        vlan_id: "{{ item.value }}"
+      loop: "{{ networks | dict2items }}"

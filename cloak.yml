@@ -1,0 +1,14 @@
+---
+vcenter_hostname: vcsa-cloak.auslab.cisco.com
+vcenter_username: administrator@auslab.local
+vcenter_password: YOURPASSWORD
+datacenter_name: Datacenter
+cluster_name: Cloak
+hypervisor_hosts:
+  # - "cloak-hypv-1.auslab.cisco.com"
+  - "cloak-hypv-2.auslab.cisco.com"
+  - "cloak-hypv-3.auslab.cisco.com"
+  - "cloak-hypv-4.auslab.cisco.com"
+networks:
+  vlan105: 105
+  vlan106: 106
