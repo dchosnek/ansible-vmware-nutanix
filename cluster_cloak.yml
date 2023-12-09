@@ -17,10 +17,12 @@ vcenter_password: !vault |
 datacenter_name: Datacenter
 cluster_name: Cloak
 hypervisor_hosts:
-  # - cloak-hypv-1.auslab.cisco.com
-  - cloak-hypv-2.auslab.cisco.com
-  - cloak-hypv-3.auslab.cisco.com
-  - cloak-hypv-4.auslab.cisco.com
+  - cloak-hyp-1.auslab.cisco.com
+  - cloak-hyp-2.auslab.cisco.com
+  - cloak-hyp-3.auslab.cisco.com
+  - wong-hyp-2.auslab.cisco.com
+  - wong-hyp-3.auslab.cisco.com
+  - wong-hyp-4.auslab.cisco.com
 networks:
   vlan105: 105
   vlan106: 106
