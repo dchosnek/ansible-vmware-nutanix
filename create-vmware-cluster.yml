@@ -72,6 +72,29 @@
           - "{{ dns_server }}"
       loop: "{{ hypervisor_hosts }}"
 
+    - name: Configure NTP server for each host
+      community.vmware.vmware_host_ntp:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        esxi_hostname: "{{ item }}"
+        ntp_servers: "{{ ntp_servers }}"
+        state: present
+      loop: "{{ hypervisor_hosts }}"
+
+    - name: Start NTP service for each host
+      community.vmware.vmware_host_service_manager:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        esxi_hostname: "{{ item }}"
+        service_name: ntpd
+        service_policy: "on"
+        state: present
+      loop: "{{ hypervisor_hosts }}"
+
     - name: Create portgroups on all hosts in the cluster
       community.vmware.vmware_portgroup:
         hostname: '{{ vcenter_hostname }}'
