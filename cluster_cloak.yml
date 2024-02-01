@@ -20,11 +20,14 @@ hypervisor_hosts:
   - cloak-hyp-1.auslab.cisco.com
   - cloak-hyp-2.auslab.cisco.com
   - cloak-hyp-3.auslab.cisco.com
+  - wong-hyp-1.auslab.cisco.com
   - wong-hyp-2.auslab.cisco.com
   - wong-hyp-3.auslab.cisco.com
   - wong-hyp-4.auslab.cisco.com
 networks:
-  vlan105: 105
-  vlan106: 106
+  "172_18_64_0": 1041
 dns_server: 172.16.1.98
 dns_domain: auslab.cisco.com
+ntp_servers:
+  - 172.16.1.90
+  - 172.16.1.91
