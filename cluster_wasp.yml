@@ -25,3 +25,6 @@ networks:
   vlan106: 106
 dns_server: 172.16.1.98
 dns_domain: auslab.cisco.com
+ntp_servers:
+  - 172.16.1.90
+  - 172.16.1.91
