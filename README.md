@@ -7,7 +7,7 @@ This repository contains some simple Ansible playbooks for adding nodes to vCent
 The variables for each cluster are contained in their own file, so you just need to run the following to set up the cluster whose variables are contained in the file `wasp.yml`.
 
 ```
-ansible-playbook create-vmware-cluster.yml -e "@wasp.yml"
+ansible-playbook create-vmware-cluster.yml -e "@cluster_wasp.yml"
 ```
 
 I have encrypted the username and password in the cluster variable files. You an replace those with plain text copies of your username and password. If you choose to also encrypt your variables, you'll need to add the `--ask-vault-pass` argument to the end of the above command.
