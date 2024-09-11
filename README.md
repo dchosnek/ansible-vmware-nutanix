@@ -21,3 +21,13 @@ I have encrypted the username and password in the cluster variable files. You an
 `delete-cluster.yml` is a simple playbook that just deletes the VMware cluster. It can be done manually just as easily.
 
 `map-nfs-share.yml` maps an NFS share as a datastore to each node.
+
+## Vault
+
+The variable files are encrypted with Ansible vault. The `ansible.cfg` file indicates that the vault password file is located at `vault-pass.txt`.
+
+The encyrpted strings in the cluster variable files in this repo were encrypted as shown below and as documented [here](https://docs.ansible.com/ansible/2.9/user_guide/vault.html#use-encrypt-string-to-create-encrypted-variables-to-embed-in-yaml)
+
+```
+ansible-vault encrypt_string --vault-password-file vault-pass.txt 'mypassword' --name 'vcenter_password'
+```
