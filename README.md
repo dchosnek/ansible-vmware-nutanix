@@ -10,7 +10,7 @@ The variables for each cluster are contained in their own file, so you just need
 ansible-playbook create-vmware-cluster.yml -e "@cluster_wasp.yml"
 ```
 
-I have encrypted the username and password in the cluster variable files. You an replace those with plain text copies of your username and password. If you choose to also encrypt your variables, you'll need to add the `--ask-vault-pass` argument to the end of the above command.
+I have encrypted the username and password in the cluster variable files in this repo. You an replace those with plain text copies of your username and password. If you choose to also encrypt your variables read the `Vault` section below.
 
 ## Files in this repo
 
@@ -26,8 +26,14 @@ I have encrypted the username and password in the cluster variable files. You an
 
 The variable files are encrypted with Ansible vault. The `ansible.cfg` file indicates that the vault password file is located at `vault-pass.txt`.
 
-The encyrpted strings in the cluster variable files in this repo were encrypted as shown below and as documented [here](https://docs.ansible.com/ansible/2.9/user_guide/vault.html#use-encrypt-string-to-create-encrypted-variables-to-embed-in-yaml)
+The encyrpted strings in the cluster variable files in this repo were encrypted as shown below and as documented [here](https://docs.ansible.com/ansible/2.9/user_guide/vault.html#use-encrypt-string-to-create-encrypted-variables-to-embed-in-yaml).
 
 ```
 ansible-vault encrypt_string --vault-password-file vault-pass.txt 'mypassword' --name 'vcenter_password'
+```
+
+If you prefer not to keep your vault password in `vault-pass.txt`, Ansible can prompt you for the password on each run by adding an option to the end of the command as shown below.
+
+```
+ansible-playbook create-vmware-cluster.yml -e "@cluster_wasp.yml" --ask-vault-pass
 ```
